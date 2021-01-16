@@ -1,0 +1,3 @@
+sudo  apt install python3-venv python3-pip
+sudo  apt install python3-venv python3-pip sudo apt install python3-venv python3-pip
+ansible ubuntu-3 -b -m raw -a "apt update &&  apt install -y python3" --ask-become-pass
