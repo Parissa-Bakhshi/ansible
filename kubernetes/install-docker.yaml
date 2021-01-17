@@ -1,0 +1,64 @@
+---
+#- name: discover nodes
+#  hosts: all
+#
+#  tasks: 
+#    - name: gathering facts
+#      setup:
+- name: initialize system
+  hosts: all
+  become: True
+    # become_method: sudo
+    #become_user: root
+    #become_password: 'P@ssw0rd'
+  vars:
+    docker_required_packages:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg-agent
+      - software-properties-common
+    docker_packages:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+
+          #- name: upgrade packages
+          #apt:
+          #upgrade: yes
+
+  tasks:
+
+    - name: remove old docker packages
+      apt:
+        name: "{{ item }}"
+        state: absent
+      with_items:
+        - docker
+        - docker-engine
+        - docker.io
+        - containerd
+        - runc
+        - docker-ce
+        - docker-ce-cli
+
+    - name: install required packages
+      apt:
+        name: "{{  docker_required_packages }}"
+        state: present
+
+    - name: add docker repository key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: add docker repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_facts["distribution_release"] }} stable 
+        state: present 
+
+    - name: install docker engine
+      apt:
+        update_cache: yes # update packes list
+        name: "{{ docker_packages }}"
+        state: present
