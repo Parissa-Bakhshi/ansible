@@ -1,0 +1,15 @@
+127.0.0.1 {{ ansible_facts["fqdn"] }} {{ ansible_facts["hostname"] }}
+127.0.0.1 {{ hostvars[inventory_hostname]["ansible_fqdn"] }} {{ hostvars[inventory_hostname]["ansible_hostname"] }}
+et27.0.0.1      localhost
+::1     localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+
+
+
+
+{% for host in hostvars %}
+{% if host in groups["production"] %}
+{{ hostvars[host]["ansible_default_ipv4"]["address"] }} {{ hostvars[host]["ansible_fqdn"] }} {{ hostvars[host]["ansible_hostname"] }}
+{% endif %}
+{%endfor %}

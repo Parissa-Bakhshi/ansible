@@ -1,0 +1,12 @@
+---
+  - name: test
+    hosts: all
+
+    tasks:
+      - name: get hostname
+        shell: "hostname"
+        register: result
+
+      - name: show hostname
+        debug:
+          var: result

@@ -1,0 +1,14 @@
+frontend myWebServersFront
+  mode tcp
+  bind *:80
+  option tcplog
+  default_backend myWebServersBackend
+
+backend myWebServersBackend
+  mode tcp
+  balance leastconn
+{% for host in hostvars %}
+{% if host in groups["webservers"] and host in groups[env]  %}
+  server {{ hostvars[host]["ansible_hostname"] }} {{ hostvars[host]["ansible_hostname"] }}:80 check
+{% endif %}
+{% endfor %}

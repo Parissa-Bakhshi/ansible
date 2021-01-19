@@ -1,0 +1,18 @@
+---
+# tasks file for haproxy
+#- name: install and configure haproxy lb
+# hosts: loadbalancers:&production
+# become: true
+# gather_facts: false
+
+  - name: install haproxy
+    apt:
+      name: haproxy
+      state: present
+    notify: restart haproxy
+
+  - name: copy haproxy cfg 
+    template: 
+      src: haproxy.cfg.j2
+      dest: /etc/haproxy/haproxy.cfg 
+    notify: restart haproxy

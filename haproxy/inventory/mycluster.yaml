@@ -1,0 +1,23 @@
+[webservers]
+ubuntu-1  mytestvar=10
+
+[loadbalancers]
+ubuntu-2
+
+[storage]
+ubuntu-3
+
+[east]
+ubuntu-[1:2]
+
+[east:vars]
+mytestvar=20
+
+[west]
+ubuntu-3
+
+[production]
+ubuntu-[1:3]
+
+[development]
+

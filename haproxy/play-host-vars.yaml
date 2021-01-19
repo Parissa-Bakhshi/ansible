@@ -1,0 +1,12 @@
+---
+  - name: test
+    hosts: all
+
+    vars:
+      is_debug: true
+
+    tasks:
+      - name: show facts
+        debug:
+          var: hostvars
+        when: is_debug

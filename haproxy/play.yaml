@@ -1,0 +1,28 @@
+---
+  - name: get facts of all systems
+    hosts: all
+    gather_facts: true
+
+    pre_tasks:    #to ensure it is executed before roles    
+      - name: get facts
+        setup:
+
+      - name: show var # test : show variable set in inventory
+        debug:
+          var: mytestvar
+        when: inventory_hostname == "ubuntu-1"
+
+  - name: haproxy setup and configure
+    hosts: loadbalancers
+    become: true
+    gather_facts: false
+
+    roles:
+      - role: haproxy
+        when: inventory_hostname in groups[env]   #loadbalancers which are in $env
+    
+    tasks:
+      - name: execute command
+        shell: "true"
+        tags:
+          - test

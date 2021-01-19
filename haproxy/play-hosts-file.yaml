@@ -1,0 +1,11 @@
+---
+  - name: test
+    hosts: production
+    become: true
+
+    tasks:
+      - name: create /etc/hosts file
+        template:
+          src: hosts
+          dest: /etc/hosts
+             
